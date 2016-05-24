@@ -7,7 +7,7 @@ HTTPS = require('ssl.https')
 redis_server = require('redis') --https://github.com/nrk/redis-lua
 redis = redis_server.connect('127.0.0.1', 6379)
 ----config----
-local bot_api_key = "139122936:AAH2qQZab-T50xHR70Ss3kmATTprG7v49Wk"
+local bot_api_key = "" --Your telegram bot api key
 local BASE_URL = "https://api.telegram.org/bot"..bot_api_key
 local BASE_FOLDER = ""
 local start = [[/setdn `<done msg>`
