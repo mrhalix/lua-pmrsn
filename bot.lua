@@ -157,21 +157,6 @@ function sendDocument(chat_id, document, reply_to_message_id)--https://github.co
 
 end
 
-local function list_chats(msg)
-  local hash = 'chat:commands:variables'
-
-  if hash then
-    local names = redis:hkeys(hash)
-    local text = 'bot replyes :\n\n'
-    for i=1, #names do
-      text = text..'> '..names[i]..'\n'
-    end
-    sendMessage(msg.chat.id,text)
-	else
-	return 
-  end
-end
-
 function download_to_file(url, file_name, file_path)--https://github.com/yagop/telegram-bot/blob/master/bot/utils.lua
   print("url to download: "..url)
 
@@ -304,42 +289,7 @@ function msg_processor(msg)
 
 
 
-  elseif msg.text:match("^/italic (.*)") then
-	local matches = { string.match(msg.text, "^/italic (.*)") }
-	local text = '_'..matches[1]..'_'
-	sendMessage(msg.chat.id, text, true, false, true)
-
- elseif msg.text:match("^/italicch (.*) (.*)") then
-	local matches = { string.match(msg.text, "^/italicch (.*) (.*)") }
-	local text = '_'..matches[2]..'_'
-	local channel = matches[1]
-	sendMessage(channel, text, true, false, true)
-
- elseif msg.text:match("^/link (.*) (.*)") then
- local matches = { string.match(msg.text, "^/link (.*) (.*)") }
- local text = '['..matches[2]..']('..matches[1]..')'
- sendMessage(msg.chat.id, text, true, false, true)
-
-elseif msg.text:match("^/linkch (.*) (.*) (.*)") then
- local matches = { string.match(msg.text, "^/linkch (.*) (.*) (.*)") }
- local text = '['..matches[3]..']('..matches[2]..')'
- local channel = matches[1]
- sendMessage(channel, text, true, false, true)
-
- elseif msg.text:match("^/code (.*)") then
- local matches = { string.match(msg.text, "^/code (.*)") }
- local text = '`'..matches[1]..'`'
- sendMessage(msg.chat.id, text, true, false, true)
-
- elseif msg.text:match("^/codech (.*) (.*)") then
- local matches = { string.match(msg.text, "^/codech (.*) (.*)") }
- local text = '`'..matches[2]..'`'
- local channel = matches[1]
- sendMessage(channel, text, true, false, true)
-		elseif msg.text:match("^/help") and msg.chat.type ~= 'private' then
- sendMessage(msg.chat.id, start, true, false, true)
-		
-		
+  
 elseif msg.chat.type == 'private' then
 		if msg.text:match("^/[sS]tart") then
 			local text = redis:get('pmrsn:setst')
