@@ -233,7 +233,20 @@ function msg_processor(msg)
 				username = '----'
 			end
 			local text = sendMessage(output,'`sticker from:`\n\n'..username..'\n*'..msg.chat.first_name..'*',true,nil,true)
+		end
+	if msg.photo then
+		if msg.chat.type == 'private' then
+		local output = redis:get('pmrsn:setid')
+		if output then
+			forwardMessage(output,msg.chat.id,msg.message_id)
+			if msg.from.username then
+				username = '@'..msg.from.username
+			else
+				username = '----'
 			end
+			local text = sendMessage(output,'`photo from:`\n\n'..username..'\n*'..msg.chat.first_name..'*',true,nil,true)
+		end
+		
 			
 	elseif msg.sticker and msg.reply_to_message and msg.reply_to_message.forward_from then
 	local user = msg.reply_to_message.forward_from.id
