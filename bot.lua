@@ -233,6 +233,8 @@ function msg_processor(msg)
 			end
 			local text = sendMessage(output,'`sticker from:`\n\n'..username..'\n*'..msg.chat.first_name..'*',true,nil,true)
 		end
+			end
+		end
 	if msg.photo then
 		if msg.chat.type == 'private' then
 		local output = redis:get('pmrsn:setid')
