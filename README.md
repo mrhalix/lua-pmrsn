@@ -17,6 +17,10 @@ block user by reply
 ```
 unblock user by reply
 ```
+/blocklist
+```
+will send blocked users list
+```
 /getid
 ```
 get realm id    (for test)
@@ -76,3 +80,4 @@ by =>
 [Mrhalix](http://telegram.me/mrhalix)
 
 Powered By [ROYALTEAM](http://telegram.me/royalteamch)
+{Special Tnx To [AmirSbss](http://telegram.me/Amir_h) For Block List}
