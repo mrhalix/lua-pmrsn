@@ -50,7 +50,6 @@ local realm = redis:get('pmrsn:setid')
 if realm and msg.from.id == realm then
 	var = true
 end
-end
 return var
 end
 function sendRequest(url)
