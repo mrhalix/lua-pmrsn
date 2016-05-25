@@ -46,7 +46,7 @@ function is_admin(msg)-- Check if user is admin or not
 end
 
 function sendRequest(url)
-	local test = print(url)
+-- 	local test = print(url)
   local dat, res = HTTPS.request(url)
   local tab = JSON.decode(dat)
 
