@@ -291,7 +291,14 @@ function msg_processor(msg)
 	elseif msg.text:match("^/users") and is_realm(msg) then
 		local list = userlist(msg)
 		sendMessage(msg.chat.id,list,true,nil,true)
-	
+	elseif msg.text:match("^/blocklist") and is_realm(msg) then
+		local list = redis:hkeys('pmrsn:blocks')
+		    local text = 'Blocked Users list :\n______________________________\n'
+                    for i=1, #list do
+                    text = text..'> '..list[i]..'\n'
+                end
+		sendMessage(msg.chat.id,text,true,nil,true)
+		
 	elseif msg.text:match("^/setst (.*)") and is_realm(msg) then
 		local matches = { string.match(msg.text, "^/setst (.*)") }
 		local text = matches[1]
