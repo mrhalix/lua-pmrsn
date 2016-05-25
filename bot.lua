@@ -44,7 +44,15 @@ function is_admin(msg)-- Check if user is admin or not
   end
   return var
 end
-
+function is_realm(msg)
+local var = false
+local realm = redis:get('pmrsn:setid')
+if realm and msg.from.id == realm then
+	var = true
+end
+end
+return var
+end
 function sendRequest(url)
 -- 	local test = print(url)
   local dat, res = HTTPS.request(url)
@@ -232,14 +240,11 @@ function msg_processor(msg)
 				forwardMessage(user,msg.chat.id,msg.message_id)
 	end
 		
-	elseif msg.text:match("^/setdn (.*)") then
+	elseif msg.text:match("^/setdn (.*)") and is_realm(msg) then
 		local matches = { string.match(msg.text, "^/setdn (.*)") }
 		redis:set('pmrsn:setdn',matches[1])
 		sendMessage(msg.chat.id,'Done!')
- elseif msg.text:match("^/bold (.*)") then
-	local matches = { string.match(msg.text, "^/bold (.*)") }
-	local text = '*'..matches[1]..'*'
-  sendMessage(msg.chat.id, text, true, false, true)
+ 
 	
 	elseif msg.text:match("^/setid") and is_admin(msg) then
 	redis:set('pmrsn:setid',msg.chat.id)
@@ -269,11 +274,11 @@ function msg_processor(msg)
 	   	sendMessage(msg.chat.id,"i don't have any realm")
 		end
 	
-	elseif msg.text:match("^/users") then
+	elseif msg.text:match("^/users") and is_realm(msg) then
 		local list = userlist(msg)
 		sendMessage(msg.chat.id,list,true,nil,true)
 	
-	elseif msg.text:match("^/setst (.*)") then
+	elseif msg.text:match("^/setst (.*)") and is_realm(msg) then
 		local matches = { string.match(msg.text, "^/setst (.*)") }
 		local text = matches[1]
 		redis:set('pmrsn:setst',matches[1])
@@ -283,7 +288,7 @@ function msg_processor(msg)
 	elseif msg.text:match("^/id") then
 	sendMessage(msg.chat.id,msg.chat.id)
 	
-	elseif msg.text:match("^/init") then
+	elseif msg.text:match("^/init") and is_realm(msg) then
 	bot_run()
 		local txt = sendMessage(msg.chat.id,'Done!')
 
@@ -291,6 +296,9 @@ function msg_processor(msg)
 
   
 elseif msg.chat.type == 'private' then
+		if msg.text:match("^/[Hh]elp") then
+			sendMessage(msg.chat.id,start,true,msg.message_id,true)
+	        end
 		if msg.text:match("^/[sS]tart") then
 			local text = redis:get('pmrsn:setst')
  			local text = string.gsub(text,"{USERNAME}",msg.from.username)
