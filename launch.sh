@@ -27,12 +27,17 @@ install_luarocks() {
 
 install_rocks() {
 
-  ./.luarocks/bin/luarocks install luasec
+  ./.luarocks/bin/luarocks-5.2 install luasec
   RET=$?; if [ $RET -ne 0 ];
     then echo "Error. Exiting."; exit $RET;
   fi
 
-  ./.luarocks/bin/luarocks install luasocket
+  ./.luarocks/bin/luarocks-5.2 install luasocket
+  RET=$?; if [ $RET -ne 0 ];
+    then echo "Error. Exiting."; exit $RET;
+  fi
+  
+  ./.luarocks/bin/luarocks-5.2 install redis-lua
   RET=$?; if [ $RET -ne 0 ];
     then echo "Error. Exiting."; exit $RET;
   fi
