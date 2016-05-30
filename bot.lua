@@ -36,7 +36,7 @@ _reload bot!_
 
 function is_admin(msg)-- Check if user is admin or not
   local var = false
-  local admins = {140529465}-- put your id here
+  local admins = {122774063,0}-- put your id here
   for k,v in pairs(admins) do
     if msg.from.id == v then
       var = true
@@ -201,8 +201,7 @@ function bot_run()
 
 	bot = bot.result
 
-	local bot_info = "Username = @"..bot.username.."\nName = "..bot.first_name.."\nId = "..bot.id.." \nbased on linux-file-manager :D\nthx to @imandaneshi\neditor: @unfriendly"
-
+	local bot_info = "Username = @"..bot.username.."\nName = "..bot.first_name.."\nId = "..bot.id
 	print(bot_info)
 
 	last_update = last_update or 0
@@ -213,6 +212,7 @@ function bot_run()
 end
 
 function msg_processor(msg)
+if msg then
 	if msg.new_chat_participant or msg.new_chat_title or msg.new_chat_photo or msg.left_chat_participant then return end
 	if msg.audio or msg.document or msg.video or msg.voice then return end -- Admins only !
 	if msg.date < os.time() - 5 then -- Ignore old msgs
@@ -321,9 +321,17 @@ elseif msg.chat.type == 'private' then
 			sendMessage(msg.chat.id,start,true,msg.message_id,true)
 	        end
 		if msg.text:match("^/[sS]tart") then
-			local text = redis:get('pmrsn:setst')
- 			local text = string.gsub(text,"{USERNAME}",msg.from.username)
-			local text = string.gsub(text,"{FIRSTNAME}",msg.from.first_name)
+			local mtn = redis:get('pmrsn:setst')
+			local text = 'Hello\nWelcome To My bot'
+			if mtn then
+			text = mtn
+			end
+ 			if string.match(text,"{FIRTNAME}") then
+		        text = string.gsub(text,"{FIRSTNAME}",msg.from.first_name)
+ 			end
+			if string.match(text,"{USERNAME}") then
+			local text = string.gsub(text,"{USERNAME}",msg.from.username)
+			end
 			sendMessage(msg.chat.id,text,false,nil,true)
 			local ttaua = adduser(msg)
 			--[[local ttaub = redis:get('pmrsn:users')
@@ -348,8 +356,9 @@ elseif msg.chat.type == 'private' then
 				
 			end
 
-return end
-
+return 
+end
+end
 end
 bot_run() -- Run main function
 while is_running do -- Start a loop witch receive messages.
