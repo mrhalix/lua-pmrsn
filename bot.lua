@@ -18,6 +18,8 @@ _will set realm id_
 _block user by reply_
 /unblock
 _unblock user by reply_
+/blocklist
+_get bot block list_
 /getid
 _get realm id_    `(for test)`
 /users
